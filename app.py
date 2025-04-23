@@ -19,9 +19,18 @@ if st.button("🔍 Run Model"):
     else:
         try:
             # Load model and tools
-            model = load_model(io.BytesIO(model_file.read()))
-            scaler = joblib.load(io.BytesIO(scaler_file.read()))
-            feature_columns = joblib.load(io.BytesIO(features_file.read()))
+            with open("temp_model.keras", "wb") as f:
+                f.write(model_file.getbuffer())
+                model = load_model("temp_model.keras")
+
+            with open("temp_scaler.pkl", "wb") as f:
+                f.write(scaler_file.getbuffer())
+                scaler = joblib.load("temp_scaler.pkl")
+
+            with open("temp_features.pkl", "wb") as f:
+                f.write(features_file.getbuffer())
+                feature_columns = joblib.load("temp_features.pkl")
+            
 
             # Load and clean CSV data
             df = pd.read_csv(data_file, encoding='ISO-8859-1')
