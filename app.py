@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 from keras.models import load_model
 
-st.title("🫁 Plethysmography Noise Filter (ML-Powered) 🫁")
+st.title("🫁 Plethysmography Noise Filter 🫁")
 
 # Upload widgets
 model_file = st.file_uploader("Upload Model (.keras)", type="keras")
