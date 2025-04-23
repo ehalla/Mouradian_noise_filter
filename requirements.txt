@@ -1,7 +1,7 @@
+streamlit
 pandas
 numpy
 scikit-learn
 tensorflow
 keras
-ipywidgets
-voila
+joblib
