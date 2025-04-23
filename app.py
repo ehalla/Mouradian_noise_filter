@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 from keras.models import load_model
 
-st.title("🧠 Hypoxia Noise Filter (ML-Powered)")
+st.title("🫁 Plethysmography Noise Filter (ML-Powered) 🫁")
 
 # Upload widgets
 model_file = st.file_uploader("Upload Model (.keras)", type="keras")
@@ -53,7 +53,8 @@ if st.button("🔍 Run Model"):
             kept_df = df[df['deleted_flag'] == 0]
 
             # Show and download
-            st.success(f"✅ Done! Rows kept: {len(kept_df)}")
+            st.success(f"✅ Your data has been successfully filtered!")
+            #st.success(f"✅ Done! Rows kept: {len(kept_df)}") 
             st.dataframe(kept_df.head())
 
             csv = kept_df.to_csv(index=False).encode('utf-8')
