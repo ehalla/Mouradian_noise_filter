@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import io
 from keras.models import load_model
 
 st.title("🧠 Hypoxia Noise Filter (ML-Powered)")
@@ -18,19 +17,18 @@ if st.button("🔍 Run Model"):
         st.warning("Please upload all required files.")
     else:
         try:
-            # Load model and tools
+            # Save uploaded files
             with open("temp_model.keras", "wb") as f:
                 f.write(model_file.getbuffer())
-                model = load_model("temp_model.keras")
-
             with open("temp_scaler.pkl", "wb") as f:
                 f.write(scaler_file.getbuffer())
-                scaler = joblib.load("temp_scaler.pkl")
-
             with open("temp_features.pkl", "wb") as f:
                 f.write(features_file.getbuffer())
-                feature_columns = joblib.load("temp_features.pkl")
-            
+
+            # Load them AFTER saving
+            model = load_model("temp_model.keras")
+            scaler = joblib.load("temp_scaler.pkl")
+            feature_columns = joblib.load("temp_features.pkl")
 
             # Load and clean CSV data
             df = pd.read_csv(data_file, encoding='ISO-8859-1')
@@ -62,4 +60,4 @@ if st.button("🔍 Run Model"):
             st.download_button("📁 Download Cleaned CSV", data=csv, file_name="cleaned_output.csv")
 
         except Exception as e:
-            st.error(f"❌ Something went wrong:\n{e}")
+            st.error(f"❌ Something went wrong:\n\n{e}")
