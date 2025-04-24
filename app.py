@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from keras.models import load_model
+import matplotlib.pyplot as plt  # ✅ Import for plotting
 
 st.title("🫁 Plethysmography Noise Filter 🫁")
 
@@ -39,7 +40,7 @@ if st.button("🔍 Run Model"):
             df = df.replace({'−': '-'}, regex=True)
             df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
-            # ✅ NEW: Convert 14th column to timedelta and seconds
+            # ✅ Convert 14th column to timedelta and seconds
             try:
                 time_col_name = df.columns[13]
                 df[time_col_name] = pd.to_timedelta(df[time_col_name].astype(str), errors='coerce')
@@ -61,10 +62,23 @@ if st.button("🔍 Run Model"):
             df['deleted_flag'] = y_pred
             kept_df = df[df['deleted_flag'] == 0]
 
-            # Show and download
+            # Show preview
             st.success(f"✅ Your data has been successfully filtered!")
             st.dataframe(kept_df.head())
 
+            # ✅ Add a plot of Raw-Pleth#1 vs Time_seconds
+            if 'Time_seconds' in kept_df.columns and 'Raw-Pleth#1' in kept_df.columns:
+                fig, ax = plt.subplots(figsize=(10, 4))
+                ax.plot(kept_df['Time_seconds'], kept_df['Raw-Pleth#1'], linewidth=0.8)
+                ax.set_title("Filtered Raw-Pleth#1 Over Time")
+                ax.set_xlabel("Time (seconds)")
+                ax.set_ylabel("Raw Plethysmography Signal")
+                ax.spines[['top', 'right']].set_visible(False)
+                st.pyplot(fig)
+            else:
+                st.info("ℹ️ Plot could not be generated — missing 'Time_seconds' or 'Raw-Pleth#1' column.")
+
+            # Download button
             csv = kept_df.to_csv(index=False).encode('utf-8')
             st.download_button("📁 Download Cleaned CSV", data=csv, file_name="cleaned_output.csv")
 
