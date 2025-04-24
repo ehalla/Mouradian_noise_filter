@@ -39,9 +39,9 @@ if st.button("🔍 Run Model"):
             df = df.replace({'−': '-'}, regex=True)
             df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
-            # ✅ NEW: Convert 14th column to timedelta and seconds
+            # ✅ NEW: Convert 15th column to timedelta and seconds
             try:
-                time_col_name = df.columns[13]
+                time_col_name = df.columns[14]
                 df[time_col_name] = pd.to_timedelta(df[time_col_name].astype(str), errors='coerce')
                 df['Time_seconds'] = df[time_col_name].dt.total_seconds()
             except Exception as e:
