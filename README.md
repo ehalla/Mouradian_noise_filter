@@ -12,7 +12,7 @@
 ## Step 4: Run Model!! 
   ### 📈 Example Output
 
-  ![Filtered Plot](images/filtered_output.png)
+  ![Filtered Plot](45691173f516e09672d8411499d9a96026c96698c6a6bfbd062fb6f8.png)
 
   The plot shows the cleaned signal over time after noise removal.
 
