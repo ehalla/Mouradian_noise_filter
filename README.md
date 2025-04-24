@@ -10,5 +10,10 @@
 ## Step 3: Upload necessary files, including you chosen plethysmography data exported as a CSV file 
 
 ## Step 4: Run Model!! 
+  ### 📈 Example Output
+
+  ![Filtered Plot](images/filtered_output.png)
+
+  The plot shows the cleaned signal over time after noise removal.
 
 ## Step 5: If filtering is satisfactory press "Download Cleaned CSV" to have cleaned data saved to local computer
