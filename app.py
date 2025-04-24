@@ -60,7 +60,7 @@ if st.button("🔍 Run Model"):
             X_scaled = scaler.transform(df_clean)
             y_pred = (model.predict(X_scaled) > 0.5).astype(int).flatten()
             df['deleted_flag'] = y_pred
-            kept_df = df[df['deleted_flag'] == 0]
+            kept_df = df[df['deleted_flag'] == 1]
 
             # Show preview
             st.success(f"✅ Your data has been successfully filtered!")
