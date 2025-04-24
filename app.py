@@ -38,6 +38,15 @@ if st.button("🔍 Run Model"):
             df = df.drop(drop_idx, errors='ignore').reset_index(drop=True)
             df = df.replace({'−': '-'}, regex=True)
             df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
+            # ✅ NEW: Convert 14th column to timedelta and seconds
+            try:
+                time_col_name = df.columns[13]
+                df[time_col_name] = pd.to_timedelta(df[time_col_name].astype(str), errors='coerce')
+                df['Time_seconds'] = df[time_col_name].dt.total_seconds()
+            except Exception as e:
+                st.warning(f"⚠️ Could not convert 14th column to time: {e}")
+
             df = df.applymap(lambda x: x if str(x).replace('.', '', 1).replace('-', '', 1).isdigit() else None)
             df = df.apply(pd.to_numeric, errors='coerce')
 
@@ -54,7 +63,6 @@ if st.button("🔍 Run Model"):
 
             # Show and download
             st.success(f"✅ Your data has been successfully filtered!")
-            #st.success(f"✅ Done! Rows kept: {len(kept_df)}") 
             st.dataframe(kept_df.head())
 
             csv = kept_df.to_csv(index=False).encode('utf-8')
